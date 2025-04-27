@@ -1,0 +1,13 @@
+server:
+  port: 8085
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5433/eventi
+    username: postgres
+    password: malek
+    driverClassName: org.postgresql.Driver
