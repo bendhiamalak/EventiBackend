@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.eventiBack.business.services.EvenementService;
+import com.example.eventiBack.exceptions.EvenementNotFoundException;
 import com.example.eventiBack.web.dto.EvenementDTO;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class EvenementController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EvenementDTO> getEvenementById(@PathVariable Long id) {
+    public ResponseEntity<EvenementDTO> getEvenementById(@PathVariable Long id) throws EvenementNotFoundException {
         return ResponseEntity.ok(evenementService.getEvenementById(id));
     }
 
@@ -35,14 +36,14 @@ public class EvenementController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EvenementDTO> updateEvenement(
+    public ResponseEntity<EvenementDTO> updateEvenement (
             @PathVariable Long id,
-            @RequestBody EvenementDTO evenementDTO) {
+            @RequestBody EvenementDTO evenementDTO) throws EvenementNotFoundException {
         return ResponseEntity.ok(evenementService.updateEvenement(id, evenementDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvenement(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteEvenement(@PathVariable Long id)  throws EvenementNotFoundException {
         evenementService.deleteEvenement(id);
         return ResponseEntity.ok().build();
     }

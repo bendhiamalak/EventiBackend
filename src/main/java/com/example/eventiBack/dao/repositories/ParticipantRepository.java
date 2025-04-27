@@ -8,4 +8,6 @@ import com.example.eventiBack.dao.entities.Participant;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
+
+    boolean existsByEmail(String email);
 } 

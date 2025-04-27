@@ -3,6 +3,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.eventiBack.business.services.ParticipantService;
+import com.example.eventiBack.exceptions.DuplicateParticipantException;
+import com.example.eventiBack.exceptions.EvenementNotFoundException;
 import com.example.eventiBack.web.dto.ParticipantDTO;
 
 import lombok.AllArgsConstructor;
@@ -18,14 +20,14 @@ public class ParticipantController {
     @PostMapping
     public ResponseEntity<ParticipantDTO> addParticipant(
             @PathVariable Long evenementId,
-            @RequestBody ParticipantDTO participantDTO) {
+            @RequestBody ParticipantDTO participantDTO) throws EvenementNotFoundException, DuplicateParticipantException {
         return ResponseEntity.ok(participantService.addParticipant(evenementId, participantDTO));
     }
 
     @DeleteMapping("/{participantId}")
     public ResponseEntity<Void> deleteParticipant(
             @PathVariable Long evenementId,
-            @PathVariable Long participantId) {
+            @PathVariable Long participantId) throws EvenementNotFoundException {
         participantService.deleteParticipant(evenementId, participantId);
         return ResponseEntity.ok().build();
     }
