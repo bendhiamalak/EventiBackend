@@ -1,5 +1,6 @@
 package com.example.eventiBack.web.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,15 +31,37 @@ public class EvenementController {
         return ResponseEntity.ok(evenementService.getEvenementById(id));
     }
 
+    // Création d'événement
     @PostMapping
     public ResponseEntity<EvenementDTO> createEvenement(@RequestBody EvenementDTO evenementDTO) {
-        return ResponseEntity.ok(evenementService.createEvenement(evenementDTO));
+        try {
+            // Forcer l'ID à null pour une nouvelle création
+            EvenementDTO dtoWithNullId = new EvenementDTO(
+                null, // ID forcé à null
+                evenementDTO.title(),
+                evenementDTO.description(),
+                evenementDTO.date(),
+                evenementDTO.lieu(),
+                evenementDTO.capacite(),
+                evenementDTO.categorie(),
+                evenementDTO.prix(),
+                null, // Image initialisée à null
+                evenementDTO.participants()
+            );
+            
+            EvenementDTO created = evenementService.createEvenement(dtoWithNullId);
+            return ResponseEntity.ok(created);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EvenementDTO> updateEvenement (
             @PathVariable Long id,
             @RequestBody EvenementDTO evenementDTO) throws EvenementNotFoundException {
+                System.out.print("from put in event"+evenementDTO.participants());
         return ResponseEntity.ok(evenementService.updateEvenement(id, evenementDTO));
     }
 
